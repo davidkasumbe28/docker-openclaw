@@ -1,0 +1,167 @@
+@OPENCLAW_GATEWAY_TOKEN = {{$dotenv OPENCLAW_GATEWAY_TOKEN}}
+
+# Protocol : http | ws
+@protocol = http
+
+# Host : localhost | 0.0.0.0
+@host = localhost
+
+# Port : 18789
+@port = 18789
+
+@baseUrl = {{protocol}}://{{host}}:{{port}}
+
+@Authorization = Bearer {{OPENCLAW_GATEWAY_TOKEN}}
+
+# TESTS ENDPOINTS GATEWAY
+
+## TESTS CONTROL UI
+
+
+### Test 1 : Web Interface
+GET {{baseUrl}}/
+Authorization : {{Authorization}}
+
+
+### Test 2 : Configuration
+GET {{baseUrl}}/control-ui-config.json
+Authorization : {{Authorization}}
+
+
+### Test 3 : Model List/Agents
+GET {{baseUrl}}/v1/models
+Authorization : {{Authorization}}
+
+
+### Test 4 : Model Informations
+GET {{baseUrl}}/v1/models/main
+Authorization : {{Authorization}}
+
+
+### Test 5 : API compatible LLM Chat
+POST {{baseUrl}}/v1/chat/completions
+Authorization : {{Authorization}}
+Content-Type: application/json
+
+{}
+
+
+### Test 6 : API LLM Responses
+POST {{baseUrl}}/v1/responses
+Authorization : {{Authorization}}
+Content-Type: application/json
+
+{}
+
+
+### Test 7 : Embeddings Generation
+POST {{baseUrl}}/v1/embeddings
+Authorization : {{Authorization}}
+Content-Type: application/json
+
+{}
+
+
+### Test 8 : Tools invoke
+POST {{baseUrl}}/tools/invoke
+Authorization : {{Authorization}}
+Content-Type: application/json
+
+{}
+
+
+### Test 9 : Gateway Administration (plugin admin-http-rpc)
+POST {{baseUrl}}/api/v1/admin/rpc
+Authorization : {{Authorization}}
+Content-Type: application/json
+
+{
+  "method":"health",
+  "params":{}
+}
+
+# --> Methods admin-http-rpc
+
+## --> Gateway
+
+# health
+# status
+# logs.tail
+# usage.status
+# usage.cost
+# gateway.restart.request
+
+## --> Configuration
+# config.get
+# config.schema
+# config.schema.lookup
+# config.set
+# config.patch
+# config.apply
+
+## --> Agents
+# agents.list
+# agents.create
+# agents.update
+# agents.delete
+
+## --> Channels
+# channels.status
+# channels.start
+# channels.stop
+# channels.logout
+
+## --> Models
+# models.list
+# models.authStatus
+
+## --> Commands
+# commands.list
+
+## --> Cron
+# cron.status
+# cron.list
+# cron.get
+# cron.runs
+# cron.add
+# cron.update
+# cron.remove
+# cron.run
+
+
+### Test 10 : Agent Avatar
+GET {{baseUrl}}/avatar/main
+Authorization : {{Authorization}}
+
+
+### Test 11 : Agents Medias Managed
+GET {{baseUrl}}/__openclaw__/assistant-media
+Authorization : {{Authorization}}
+
+
+# ### Test 12 : Webhooks Reception (if enable)
+# POST {{baseUrl}}/webhook/...
+# Authorization : {{Authorization}}
+# Content-Type: application/json
+
+# {
+  
+# }
+
+# ### Test 13 : Main RPC API used by CLI and Control UI
+# GET ws://{{host}}:{{port}}
+
+
+#### Test 14 : Execute Secure Web Request (if enable)
+# POST {{baseUrl}}/
+# Authorization : {{Authorization}}
+# Content-Type: application/json
+
+# {
+#   "tool": "execute_secure_web_request",
+#   "arguments": {
+#     "clientIp": "192.168.1.50",
+#     "userRole": "super-user",
+#     "promptPayload": "Générer un rapport d'activité hebdomadaire."
+#   }
+# }

@@ -1,0 +1,60 @@
+services:
+  openclaw:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: openclaw-gateway
+    restart: unless-stopped
+
+    environment:
+      TZ: ........................................
+
+      # Sécurité Gateway
+      OPENCLAW_GATEWAY_TOKEN: ........................................
+
+      # Gemini
+      GEMINI_API_KEY: ........................................
+
+      # Configuration OpenClaw
+      OPENCLAW_CONFIG_JSON: |
+        {
+          "agents": {
+            "defaults": {
+              "model": {
+                "primary": ........................................
+              }
+            }
+          }
+          "auth": {
+            "profiles": {
+              "google:default": {
+                  "provider": "google",
+                  "mode": "api_key"
+              }
+            }
+          }
+        }
+
+    ports:
+      - "18789:18789"
+
+    volumes:
+      - ./data:/home/node/.openclaw
+      - ./plugins:/home/node/.openclaw/plugins
+
+    command:
+      - node
+      - openclaw.mjs
+      - gateway
+      - --allow-unconfigured
+
+  openclaw-cli:
+    image: ghcr.io/openclaw/openclaw:latest
+    container_name: openclaw-cli
+
+    env_file:
+      - .env
+
+    volumes:
+      - ./data:/home/node/.openclaw
+      - ./plugins:/home/node/.openclaw/plugins
+
+    network_mode: "service:openclaw"

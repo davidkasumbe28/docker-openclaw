@@ -1,0 +1,21 @@
+@MODEL  = {{$dotenv GEMINI_MODEL}}
+
+@API_KEY = {{$dotenv GEMINI_API_KEY}}
+
+@url="https://generativelanguage.googleapis.com/v1beta/models/{{MODEL}}:generateContent" 
+
+
+
+# Test disponibility of gemini api service
+# Test of the gemini model
+curl {{url}}       -H 'Content-Type: application/json'       -H "x-goog-api-key: {{API_KEY}}"       -X POST       -d '{
+    "contents": [
+      {
+        "parts": [
+          {
+            "text": "Explain how AI works in a few words"
+          }
+        ]
+      }
+    ]
+  }'
