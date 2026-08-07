@@ -1,0 +1,5 @@
+.env
+data
+plugins
+docker-compose.yml
+docker-compose.override.yml
