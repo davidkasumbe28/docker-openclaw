@@ -1,4 +1,4 @@
-# OpenClaw Docker
+# Docker Openclaw
 
 **Déploiement simple et persistant d'OpenClaw avec Docker Compose.**
 
@@ -6,7 +6,7 @@
 
 ## Présentation
 
-OpenClaw Docker est un projet open source qui simplifie le déploiement d'OpenClaw avec Docker Compose.
+Docker Openclaw est un projet open source qui simplifie le déploiement d'OpenClaw avec Docker Compose.
 
 Le projet utilise directement l'image Docker officielle d'OpenClaw, sans avoir besoin de cloner son repository source ni de construire une image personnalisée.
 
@@ -16,7 +16,7 @@ Il est conçu pour fonctionner avec Docker Desktop sous Windows, tout en restant
 
 - Déploiement avec Docker Compose.
 - Image officielle OpenClaw.
-- Version OpenClaw fixée à 2026.9.3.
+- Version OpenClaw fixée à 2026.9.3 ou latest.
 - Google Gemini comme AI provider par defaut.
 - Modèle par défaut : google/gemini-3.1-flash-lite.
 - Deux services : Gateway et CLI.
@@ -72,8 +72,8 @@ openclaw-gateway       openclaw-cli
 1. Cloner le repository
 
 ```bash
-git clone https://github.com/TON_USERNAME/openclaw-gemini-docker.git
-cd openclaw-gemini-docker
+git clone https://github.com/davidkasumbe28/docker-openclaw.git
+cd docker-openclaw
 ```
 
 2. Préparer les environment variables
@@ -132,7 +132,7 @@ http://127.0.0.1:18789
 
 | Paramètre     | Valeur                       |
 | ------------- | ---------------------------- |
-| OpenClaw      | 2026.9.3                     |
+| OpenClaw      | 2026.9.3 ou latest           |
 | Gateway mode  | local                        |
 | Gateway port  | 18789                        |
 | AI provider   | Google                       |
@@ -200,7 +200,7 @@ openclaw-state
 
 Les archives sont enregistrées localement dans :
 
-D:\openclaw-2026.9.3-docker\config-backup
+./config-backup
 
 - Créer un backup
 
@@ -244,11 +244,11 @@ bash scripts/restore.sh
 
 ## Versioning
 
-| Composant     | Version        |
-| ------------- | -------------- |
-| Repository    | 1.0.0          |
-| OpenClaw      | 2026.9.3       |
-| Google Gemini | 3.1 Flash Lite |
+| Composant     | Version            |
+| ------------- | ------------------ |
+| Repository    | 1.0.0              |
+| OpenClaw      | 2026.9.3 ou latest |
+| Google Gemini | 3.1 Flash Lite     |
 
 Le tag Docker fixe la version demandée. Le commit upstream est une référence documentaire et doit être vérifié indépendamment si une garantie exacte de provenance est nécessaire.
 
@@ -271,22 +271,5 @@ Consulter CONTRIBUTING.md avant de proposer une Pull Request.
 - Google Gemini
 - Docker
 
-**OpenClaw Docker — Un déploiement simple, persistant et reproductible.**
+**Docker Openclaw — Un déploiement simple, persistant et reproductible.**
 
-<!--
-MSYS_NO_PATHCONV=1 docker run --rm -i \
-  -v openclaw-state:/data \
-  alpine:3.20 sh -c 'cat > /data/openclaw.json' <<'EOF'
-{
-  "gateway": {
-    "mode": "local"
-  },
-  "agents": {
-    "defaults": {
-      "model": {
-        "primary": "google/gemini-3.1-flash-lite"
-      }
-    }
-  }
-}
-EOF -->

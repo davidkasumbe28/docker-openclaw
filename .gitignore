@@ -5,7 +5,7 @@
 !.env.example
 
 # OpenClaw private data
-config/
+!config/
 config-backup/
 backups/
 workspace/
