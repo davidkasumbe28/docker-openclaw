@@ -8,7 +8,7 @@
 
 # Test disponibility of gemini api service
 # Test of the gemini model
-curl {{url}}       -H 'Content-Type: application/json'       -H "x-goog-api-key: {{API_KEY}}"       -X POST       -d '{
+curl {{url}} -H 'Content-Type: application/json' -H "x-goog-api-key: {{API_KEY}}" -X POST -d '{
     "contents": [
       {
         "parts": [

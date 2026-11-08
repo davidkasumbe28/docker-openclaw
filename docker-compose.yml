@@ -1,0 +1,102 @@
+name: openclaw
+services:
+
+  openclaw-gateway:
+    image: ${OPENCLAW_IMAGE}
+    container_name: openclaw-gateway
+    restart: unless-stopped
+
+    environment:
+      HOME: /home/node
+      OPENCLAW_HOME: /home/node
+      OPENCLAW_STATE_DIR: /home/node/.openclaw
+      OPENCLAW_CONFIG_DIR: /home/node/.openclaw
+      OPENCLAW_CONFIG_PATH: /home/node/.openclaw/openclaw.json
+      OPENCLAW_WORKSPACE_DIR: /home/node/.openclaw/workspace
+
+      OPENCLAW_GATEWAY_PORT: "18789"
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      TZ: ${OPENCLAW_TZ:-UTC}
+      
+
+    ports:
+      - "127.0.0.1:${OPENCLAW_GATEWAY_PORT:-18789}:18789"
+
+    volumes:
+      - openclaw-state:/home/node/.openclaw
+
+    command:
+      - node
+      - dist/index.js
+      - gateway
+      - --bind
+      - lan
+      - --port
+      - "18789"
+
+    init: true
+
+    security_opt:
+      - no-new-privileges:true
+
+    cap_drop:
+      - NET_RAW
+      - NET_ADMIN
+
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - dist/docker-healthcheck.js
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  openclaw-cli:
+    image: ${OPENCLAW_IMAGE}
+    container_name: openclaw-cli
+
+    network_mode: "service:openclaw-gateway"
+
+    environment:
+      HOME: /home/node
+      OPENCLAW_HOME: /home/node
+      OPENCLAW_STATE_DIR: /home/node/.openclaw
+      OPENCLAW_CONFIG_DIR: /home/node/.openclaw
+      OPENCLAW_CONFIG_PATH: /home/node/.openclaw/openclaw.json
+      OPENCLAW_WORKSPACE_DIR: /home/node/.openclaw/workspace
+
+      OPENCLAW_GATEWAY_PORT: "18789"
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      TZ: ${OPENCLAW_TZ:-UTC}
+      
+
+    volumes:
+      - openclaw-state:/home/node/.openclaw
+
+    entrypoint:
+      - node
+      - dist/index.js
+
+    depends_on:
+      openclaw-gateway:
+        condition: service_started
+
+    init: true
+    security_opt:
+      - no-new-privileges:true
+
+    cap_drop:
+      - NET_RAW
+      - NET_ADMIN
+
+    stdin_open: true
+    tty: true
+
+volumes:
+  openclaw-state:
+    name: openclaw-state
+    external: true

@@ -34,7 +34,7 @@ Authorization : {{Authorization}}
 
 
 ### Test 4 : Model Informations
-GET {{baseUrl}}/v1/models/main
+GET {{baseUrl}}/v1/models/openclaw
 Authorization : {{Authorization}}
 
 
@@ -43,7 +43,15 @@ POST {{baseUrl}}/v1/chat/completions
 Authorization : {{Authorization}}
 Content-Type: application/json
 
-{}
+{
+  "model": "openclaw/default",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Bonjour"
+    }
+  ]
+}
 
 
 ### Test 6 : API LLM Responses

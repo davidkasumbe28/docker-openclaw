@@ -1,0 +1,28 @@
+
+name: Validate Docker Compose
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare environment
+        run: cp .env.example .env
+
+      - name: Validate Compose
+        run: docker compose config --quiet
+
+      - name: Validate JSON
+        run: python -m json.tool config/openclaw.example.json

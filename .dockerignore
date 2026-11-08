@@ -1,0 +1,10 @@
+
+.git
+.github
+.env
+.env.*
+!.env.example
+config-backup
+backups
+logs
+*.log
