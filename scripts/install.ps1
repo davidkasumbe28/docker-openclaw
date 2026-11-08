@@ -64,6 +64,13 @@ cat > /data/openclaw.json <<'EOF'
   "gateway": {
     "mode": "local"
   },
+  "http": {
+    "endpoints": {
+      "chatCompletions": {
+        "enabled": true
+      }
+    }
+  },
   "agents": {
     "defaults": {
       "model": {

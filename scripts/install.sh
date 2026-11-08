@@ -62,6 +62,13 @@ MSYS_NO_PATHCONV=1 docker run --rm \
   "gateway": {
     "mode": "local"
   },
+  "http": {
+    "endpoints": {
+      "chatCompletions": {
+        "enabled": true
+      }
+    }
+  },
   "agents": {
     "defaults": {
       "model": {
